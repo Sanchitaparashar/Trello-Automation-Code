@@ -1,0 +1,99 @@
+
+import java.io.IOException;
+
+import resources.TrelloHelper;
+import com.rational.test.ft.*;
+import com.rational.test.ft.object.interfaces.*;
+import com.rational.test.ft.object.interfaces.SAP.*;
+import com.rational.test.ft.object.interfaces.WPF.*;
+import com.rational.test.ft.object.interfaces.dojo.*;
+import com.rational.test.ft.object.interfaces.siebel.*;
+import com.rational.test.ft.object.interfaces.flex.*;
+import com.rational.test.ft.object.interfaces.generichtmlsubdomain.*;
+import com.rational.test.ft.script.*;
+import com.rational.test.ft.value.*;
+import com.rational.test.ft.vp.*;
+import com.ibm.rational.test.ft.object.interfaces.sapwebportal.*;
+/**
+ * Description   : Functional Test Script
+ * @author sanchita
+ */
+public class Trello extends TrelloHelper
+{
+	/**
+	 * Script Name   : <b>Trello</b>
+	 * Generated     : <b>Sep 14, 2017 5:17:51 PM</b>
+	 * Description   : Functional Test Script
+	 * Original Host : WinNT Version 6.2  Build 9200 ()
+	 * 
+	 * @since  2017/09/14
+	 * @author sanchita
+	 */
+	public void testMain(Object[] args) 
+	{
+	  try{
+		String Userid = "Sanchitaparashar";
+		String Password = "San^%q12345";
+		String TeamMemberUID = "siddhantkularay2";
+		String TeamMemberPWD = "SK^%qkool419";
+		String BoardName = "Team";
+		Process trello = null;
+		
+		//1. Starting and login to Trello
+		try {
+			trello = Runtime.getRuntime().exec(new String[] {"C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe", "https://trello.com"});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		link_logIn().click();
+		browser_htmlBrowser(document_logInToTrello(),DEFAULT_FLAGS).inputKeys(Userid);
+		sleep(1);
+		text_password().click(atPoint(144,17));
+		browser_htmlBrowser(document_logInToTrello(),DEFAULT_FLAGS).inputKeys(Password);
+		sleep(1);
+		button_logInsubmit().click();
+		
+		//2. Creating a new Board
+		link_boards().click();
+		sleep(1);
+		link_createNewBoard().click();
+		sleep(1);
+		browser_htmlBrowser(document_boardsTrello(),DEFAULT_FLAGS).inputChars(BoardName);
+		sleep(1);
+		button_createsubmit().click();
+		
+		//3. Inviting a new Team Member
+		link_invite().click();
+		browser_htmlBrowser(document_bestFriendsTrello(),DEFAULT_FLAGS).inputChars("siddhant kularay");
+		link_siddhantKularaySiddhantku().click();
+		
+		//4. Logout from my account
+		link_sp().click();
+		link_logOut().click();
+		
+		//5. Login from my team members account
+		link_logIn2().click();
+		html_user().click(atPoint(106,28));
+		browser_htmlBrowser(document_logInToTrello(),DEFAULT_FLAGS).inputChars("siddhantkularay2");
+		text_password().click(atPoint(206,26));
+		browser_htmlBrowser(document_logInToTrello(),DEFAULT_FLAGS).inputKeys("SK^%qkool419");
+		button_logInsubmit().click();
+		
+		//6. Going into the board
+		link_bestFriends().click();
+		sleep(2);
+		
+		//7. Logout from team member's account
+		link_sk().click();
+		link_abmelden().click();
+		
+		//8. Closing the browser
+		trello.destroy();
+		
+	  	}catch(Exception e){
+		  e.printStackTrace();
+		  System.out.println("Trello Task was unsuccessfull...");
+	  }
+	}
+}
+
